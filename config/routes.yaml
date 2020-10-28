@@ -1,0 +1,14 @@
+index:
+    path: /my/
+    controller: App\Controller\DefaultController::index
+
+books:
+    path: /my/books/
+    controller: App\Controller\DefaultController::viewBooks
+add_book:
+    path: /my/addbooks/
+    controller: App\Controller\DefaultController::addBook
+edit_book:
+    path: /my/editbooks/{id}
+    controller: App\Controller\DefaultController::editBook
+    

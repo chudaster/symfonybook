@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Книги</h1>
+<a href="/my/books/">Список</a>
+        <h2>{{ book.name }}</h2>
+        <h2>{{ book.years }}</h2>
+        <h2>{{ book.autor }}</h2>
+{% endblock %}
