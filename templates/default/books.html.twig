@@ -2,7 +2,8 @@
 
 {% block body %}
 <h1>Книги</h1>
-<a href="/my/books/">Список</a>
+{% include 'default/menu.html.twig' %}
+
     {% for book in books %}
         <h2><a href="{{ url('edit_book', {id:book.id}) }}">{{ book.name }}</a></h2>
     {% endfor %}

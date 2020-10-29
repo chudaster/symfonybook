@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Controller;
 
 /**
@@ -15,12 +9,13 @@ namespace App\Controller;
  */
 
 use App\Entity\Books;
+use App\Form\BooksForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends AbstractController {
-    //put your code here
     public function index(): Response {
         $number = random_int(0, 100);
 
@@ -32,13 +27,29 @@ class DefaultController extends AbstractController {
         $books = $this->getDoctrine()->getRepository(Books::class)->findAll();
         return $this->render('default/books.html.twig',['books'=>$books]);
     }
-    public function editBook(int $id): Response {
-        $book = $this->getDoctrine()->getRepository(Books::class)->find($id);
-        if (!$book) {
-            throw $this->createNotFoundException(
-                'No product found for id '.$id
-            );
+    public function editBook(Request $request,int $id=0): Response {
+        if($id){
+            $book = $this->getDoctrine()->getRepository(Books::class)->find($id);
+            if (!$book) {
+                throw $this->createNotFoundException(
+                    'No product found for id '.$id
+                );
+            }
+        } else {
+
+            $book = new Books();
         }
-        return $this->render('default/book.html.twig',['book'=>$book]);
+        $form = $this->createForm(BooksForm::class, $book);
+        $form->handleRequest($request);
+       if ($form->isSubmitted() && $form->isValid()) {
+
+           $book = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($book);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('books');
+        }
+        return $this->render('default/book.html.twig',['book'=>$book,'form'=>$form->createView()]);
     }
 }
