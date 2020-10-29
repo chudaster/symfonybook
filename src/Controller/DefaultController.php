@@ -28,11 +28,11 @@ class DefaultController extends AbstractController {
         return $this->render('default/books.html.twig',['books'=>$books]);
     }
     public function editBook(Request $request,int $id=0): Response {
-        if($id){
+        if((int)$id){
             $book = $this->getDoctrine()->getRepository(Books::class)->find($id);
             if (!$book) {
                 throw $this->createNotFoundException(
-                    'No product found for id '.$id
+                    'No book found for id '.$id
                 );
             }
         } else {
