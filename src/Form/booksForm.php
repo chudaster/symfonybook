@@ -8,7 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Description of booksForm
+ * Description of BooksForm
  *
  * @author Chudaster
  */
